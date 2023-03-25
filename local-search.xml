@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>微波-矩形波导设计仿真与分析</title>
+    <link href="/2023/03/25/%E5%BE%AE%E6%B3%A2-%E7%9F%A9%E5%BD%A2%E6%B3%A2%E5%AF%BC%E8%AE%BE%E8%AE%A1%E4%BB%BF%E7%9C%9F%E4%B8%8E%E5%88%86%E6%9E%90/"/>
+    <url>/2023/03/25/%E5%BE%AE%E6%B3%A2-%E7%9F%A9%E5%BD%A2%E6%B3%A2%E5%AF%BC%E8%AE%BE%E8%AE%A1%E4%BB%BF%E7%9C%9F%E4%B8%8E%E5%88%86%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<h1 id="实验过程记录"><a href="#实验过程记录" class="headerlink" title="实验过程记录"></a>实验过程记录</h1><h2 id="使用HFSS软件设计建模BJ-32矩形波导结构"><a href="#使用HFSS软件设计建模BJ-32矩形波导结构" class="headerlink" title="使用HFSS软件设计建模BJ-32矩形波导结构"></a>使用HFSS软件设计建模BJ-32矩形波导结构</h2><h3 id="主要仿真步骤"><a href="#主要仿真步骤" class="headerlink" title="主要仿真步骤"></a>主要仿真步骤</h3><p>BJ-32矩形波导结构尺寸为a<em>b</em>*=*<em>72.14</em>34.04mm,长为200mm,在属性窗口设置矩形波导中传输介质为空气，透明度为0.8，设置边界条件和端口激励</p><h3 id="仿真结果"><a href="#仿真结果" class="headerlink" title="仿真结果"></a>仿真结果</h3><p> BJ-32矩形波导结构如图2-1所示<br>![[BJ-32矩形波导结构.png]]<br>图2-1-1 BJ-32矩形波导结构</p><h2 id="仿真分析TE10模的场分布，管壁电流分布"><a href="#仿真分析TE10模的场分布，管壁电流分布" class="headerlink" title="仿真分析TE10模的场分布，管壁电流分布"></a>仿真分析TE10模的场分布，管壁电流分布</h2><h3 id="主要仿真步骤-1"><a href="#主要仿真步骤-1" class="headerlink" title="主要仿真步骤"></a>主要仿真步骤</h3><h4 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h4><p>设置工作频率为2.8GHz+学号尾号*100MHz，即3.3GHz, HFSS&gt;Analysis Setup&gt;Add Solution Setup，可以进行自适应频率和收敛标准的设置，设置solution Frequency，Setup1=3.3GHz；设置扫频：Setup1→Add Frequency Sweep→Interpolating差值扫频 1~10GHz。</p><h4 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h4><p>右键Setup1，选择Analyze进行分析。对Setup1分析完毕后，可观察场分布，选择Field overlays右键editsource，可以查看不同模式的场，此处分析TE10模的场分布，故选择Source为1：1的场，取Magnitude为1，其余为0；选择Plot Fields中的Mag_E（电场瞬时幅度变化）、Vector_E(电场瞬时矢量)和Vector_H(磁场瞬时矢量)可观察TE10模的电场和磁场分布；选择Vector_Jsurf可观察管壁表面电流分布</p><h3 id="仿真结果-1"><a href="#仿真结果-1" class="headerlink" title="仿真结果"></a>仿真结果</h3><p>![[图2-2-1 电场瞬时幅度变化（3.3GHz TE10模）.png]]<br>图2-2-1 电场瞬时幅度变化（3.3GHz TE10模）<br>![[图2-2-2 电场瞬时矢量（3.3GHz TE10模）.png]]<br>图2-2-2 电场瞬时矢量（3.3GHz TE10模）<br>![[图2-2-3 磁场瞬时矢量（3.3GHz TE10模）.png]]<br>图2-2-3 磁场瞬时矢量（3.3GHz TE10模）<br>![[图2-2-4 管壁表面电流分布（3.3GHz TE10模）.png]]<br>图2-2-4 管壁表面电流分布（3.3GHz TE10模）</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Microwave</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>HFSS</tag>
+      
+      <tag>微波</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>测试文章</title>
     <link href="/2023/03/25/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/"/>
     <url>/2023/03/25/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</url>
