@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Jupyter NoteBook</title>
+    <link href="/2023/04/05/Jupyter%20NoteBook/"/>
+    <url>/2023/04/05/Jupyter%20NoteBook/</url>
+    
+    <content type="html"><![CDATA[<pre><code class="hljs"># 基础</code></pre><h2 id="基本操作和快捷键"><a href="#基本操作和快捷键" class="headerlink" title="基本操作和快捷键"></a>基本操作和快捷键</h2><ol><li>ctrl+回车： 运行当前单元格</li><li>alt+回车:运行当前单元格并在下方创建一个单元格</li><li>shift+回车:运行当前单元格并选中下方一个单元格</li><li>选中单元格+M:单元格变成Markdown块</li><li>选中单元格+Y:单元格变成代码块</li></ol><h1 id="高级"><a href="#高级" class="headerlink" title="高级"></a>高级</h1><h2 id="魔法命令"><a href="#魔法命令" class="headerlink" title="魔法命令"></a>魔法命令</h2><h3 id="run"><a href="#run" class="headerlink" title="%run"></a>%run</h3><ol><li><p>在Jupter NoteBook中调用Myscript工程下的hello.py代码</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">hello</span>(<span class="hljs-params">name</span>):  <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello&quot;</span>, name, <span class="hljs-string">&quot;!&quot;</span>)  <br>    <br>hello(<span class="hljs-string">&quot;Machine Learning&quot;</span>)<br></code></pre></td></tr></table></figure></li><li><p> %run命令运行该脚本，且可读取到hello()函数</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Python">%run Myscript/hello.py<br>hello(<span class="hljs-string">&#x27;嗮嗮&#x27;</span>);<br></code></pre></td></tr></table></figure></li><li><p>加载整个模块</p><ol><li>mymodule模块，下有FirstML.py（predict函数）和__init__.py<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">predict</span>(<span class="hljs-params">x</span>):  <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;?&quot;</span>)<br></code></pre></td></tr></table></figure></li><li>import模块<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> mymodule.FirstML<br>mymodule.FirstML.predict(<span class="hljs-number">1</span>);<span class="hljs-comment">#?</span><br></code></pre></td></tr></table></figure></li><li>常用：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">from</span> mymodule <span class="hljs-keyword">import</span> FirstML<br><br>FirstML.predict(<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure><h3 id="timeit"><a href="#timeit" class="headerlink" title="%timeit"></a>%timeit</h3></li></ol></li><li><p>注意:后面只能接一句话</p></li><li><p>测试运行时间</p> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs Python">%timeit L=[i**<span class="hljs-number">2</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1000</span>)];<br><span class="hljs-comment">#196 µs ± 931 ns per loop (mean ± std. dev. of 7 runs, 1000 loops each)</span><br>%timeit L=[i**<span class="hljs-number">2</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1000000</span>)];<br><span class="hljs-comment">#212 ms ± 1.16 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)</span><br><span class="hljs-comment">#复杂度线性 O(n)</span><br></code></pre></td></tr></table></figure><h3 id="timeit-1"><a href="#timeit-1" class="headerlink" title="%%timeit"></a>%%timeit</h3></li><li><p>注意：可以接代码段</p></li><li><p>%%区域命令符</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs Python"> %%timeit<br>L=[]<br><span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1000</span>):<br>    L.append(n**<span class="hljs-number">2</span>)<br><span class="hljs-comment">#这里使用for循环生成L，前一例子使用List的生成表达式更快</span><br></code></pre></td></tr></table></figure><h3 id="time"><a href="#time" class="headerlink" title="%time"></a>%time</h3></li><li><p>注意：不希望想前两个一样系统执行多次，只希望执行一次，但此时不稳定</p></li><li><p>区域化还是%%time</p></li><li><p>此时多次生成或者排后测量是不一样的时间，无法真实反映</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> random<br>L=[random.random() <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100000</span>)]<br>%timeit L.sort()<br>%timeit L.sort()<br></code></pre></td></tr></table></figure></li><li><p>说明：random()函数</p><h3 id="其他魔法命令"><a href="#其他魔法命令" class="headerlink" title="其他魔法命令"></a>其他魔法命令</h3></li></ol><ul><li>%lsmagic:输出所有魔法命令</li><li>%run? 查看run命令的文档</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Note</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ML</tag>
+      
+      <tag>Python</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Markdown语法</title>
     <link href="/2023/03/31/Markdown%E8%AF%AD%E6%B3%95/"/>
     <url>/2023/03/31/Markdown%E8%AF%AD%E6%B3%95/</url>
