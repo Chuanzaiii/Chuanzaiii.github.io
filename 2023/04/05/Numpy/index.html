@@ -16,15 +16,15 @@
   <meta name="author" content="Chuanzaiii">
   <meta name="keywords" content="">
   
-    <meta name="description" content="# 基础  基本操作和快捷键 ctrl+回车： 运行当前单元格 alt+回车:运行当前单元格并在下方创建一个单元格 shift+回车:运行当前单元格并选中下方一个单元格 选中单元格+M:单元格变成Markdown块 选中单元格+Y:单元格变成代码块  高级魔法命令%run 在Jupter NoteBook中调用Myscript工程下的hello.py代码 1234def hello(name):">
+    <meta name="description" content="Numpy基础numpy引入 import numpy as np 导入并为库取名 np.__version__查看版本numpy.array与Python中list和array对比 Python中List未限定元素类型，array无向量相关、矩阵相关运算 使用nuppy.array使用   生成1nparr&#x3D;np.array([i for i in range(10)]) 基本操作，类似List">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Jupyter NoteBook">
-<meta property="og:url" content="http://example.com/2023/04/05/Jupyter%20NoteBook/index.html">
+<meta property="og:title" content="Numpy">
+<meta property="og:url" content="http://example.com/2023/04/05/Numpy/index.html">
 <meta property="og:site_name" content="Chuanzaiii">
-<meta property="og:description" content="# 基础  基本操作和快捷键 ctrl+回车： 运行当前单元格 alt+回车:运行当前单元格并在下方创建一个单元格 shift+回车:运行当前单元格并选中下方一个单元格 选中单元格+M:单元格变成Markdown块 选中单元格+Y:单元格变成代码块  高级魔法命令%run 在Jupter NoteBook中调用Myscript工程下的hello.py代码 1234def hello(name):">
+<meta property="og:description" content="Numpy基础numpy引入 import numpy as np 导入并为库取名 np.__version__查看版本numpy.array与Python中list和array对比 Python中List未限定元素类型，array无向量相关、矩阵相关运算 使用nuppy.array使用   生成1nparr&#x3D;np.array([i for i in range(10)]) 基本操作，类似List">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-05T11:39:32.000Z">
-<meta property="article:modified_time" content="2023-04-05T11:40:53.289Z">
+<meta property="article:published_time" content="2023-04-05T11:43:32.000Z">
+<meta property="article:modified_time" content="2023-04-05T11:45:01.601Z">
 <meta property="article:author" content="Chuanzaiii">
 <meta property="article:tag" content="ML">
 <meta property="article:tag" content="Python">
@@ -32,7 +32,7 @@
   
   
   
-  <title>Jupyter NoteBook - Chuanzaiii</title>
+  <title>Numpy - Chuanzaiii</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Jupyter NoteBook"></span>
+            <span id="subtitle" data-typed-text="Numpy"></span>
           
         </div>
 
@@ -209,7 +209,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-05 19:39" pubdate>
+        <time datetime="2023-04-05 19:43" pubdate>
           2023年4月5日 晚上
         </time>
       </span>
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          1.4k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          9 分钟
+          12 分钟
         
       </span>
     
@@ -270,55 +270,102 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Jupyter NoteBook</h1>
+            <h1 style="display: none">Numpy</h1>
             
             
               <div class="markdown-body">
                 
-                <pre><code class="hljs"># 基础
-</code></pre>
-<h2 id="基本操作和快捷键"><a href="#基本操作和快捷键" class="headerlink" title="基本操作和快捷键"></a>基本操作和快捷键</h2><ol>
-<li>ctrl+回车： 运行当前单元格</li>
-<li>alt+回车:运行当前单元格并在下方创建一个单元格</li>
-<li>shift+回车:运行当前单元格并选中下方一个单元格</li>
-<li>选中单元格+M:单元格变成Markdown块</li>
-<li>选中单元格+Y:单元格变成代码块</li>
-</ol>
-<h1 id="高级"><a href="#高级" class="headerlink" title="高级"></a>高级</h1><h2 id="魔法命令"><a href="#魔法命令" class="headerlink" title="魔法命令"></a>魔法命令</h2><h3 id="run"><a href="#run" class="headerlink" title="%run"></a>%run</h3><ol>
-<li><p>在Jupter NoteBook中调用Myscript工程下的hello.py代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">hello</span>(<span class="hljs-params">name</span>):  <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello&quot;</span>, name, <span class="hljs-string">&quot;!&quot;</span>)  <br>    <br>hello(<span class="hljs-string">&quot;Machine Learning&quot;</span>)<br></code></pre></td></tr></table></figure></li>
-<li><p> %run命令运行该脚本，且可读取到hello()函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Python">%run Myscript/hello.py<br>hello(<span class="hljs-string">&#x27;嗮嗮&#x27;</span>);<br></code></pre></td></tr></table></figure></li>
-<li><p>加载整个模块</p>
+                <h1 id="Numpy基础"><a href="#Numpy基础" class="headerlink" title="Numpy基础"></a>Numpy基础</h1><h2 id="numpy引入"><a href="#numpy引入" class="headerlink" title="numpy引入"></a>numpy引入</h2><ul>
+<li>import numpy as np 导入并为库取名</li>
+<li>np.__version__查看版本<h2 id="numpy-array"><a href="#numpy-array" class="headerlink" title="numpy.array"></a>numpy.array</h2><h3 id="与Python中list和array对比"><a href="#与Python中list和array对比" class="headerlink" title="与Python中list和array对比"></a>与Python中list和array对比</h3></li>
+<li>Python中List未限定元素类型，array无向量相关、矩阵相关运算</li>
+<li>使用nuppy.array<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3></li>
+</ul>
 <ol>
-<li>mymodule模块，下有FirstML.py（predict函数）和__init__.py<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">predict</span>(<span class="hljs-params">x</span>):  <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;?&quot;</span>)<br></code></pre></td></tr></table></figure></li>
-<li>import模块<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> mymodule.FirstML<br>mymodule.FirstML.predict(<span class="hljs-number">1</span>);<span class="hljs-comment">#?</span><br></code></pre></td></tr></table></figure></li>
-<li>常用：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">from</span> mymodule <span class="hljs-keyword">import</span> FirstML<br><br>FirstML.predict(<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
-<h3 id="timeit"><a href="#timeit" class="headerlink" title="%timeit"></a>%timeit</h3></li>
-</ol>
-</li>
-<li><p>注意:后面只能接一句话</p>
-</li>
-<li><p>测试运行时间</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs Python">%timeit L=[i**<span class="hljs-number">2</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1000</span>)];<br><span class="hljs-comment">#196 µs ± 931 ns per loop (mean ± std. dev. of 7 runs, 1000 loops each)</span><br>%timeit L=[i**<span class="hljs-number">2</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1000000</span>)];<br><span class="hljs-comment">#212 ms ± 1.16 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)</span><br><span class="hljs-comment">#复杂度线性 O(n)</span><br></code></pre></td></tr></table></figure>
-<h3 id="timeit-1"><a href="#timeit-1" class="headerlink" title="%%timeit"></a>%%timeit</h3></li>
-<li><p>注意：可以接代码段</p>
-</li>
-<li><p>%%区域命令符</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs Python"> %%timeit<br>L=[]<br><span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1000</span>):<br>    L.append(n**<span class="hljs-number">2</span>)<br><span class="hljs-comment">#这里使用for循环生成L，前一例子使用List的生成表达式更快</span><br></code></pre></td></tr></table></figure>
-<h3 id="time"><a href="#time" class="headerlink" title="%time"></a>%time</h3></li>
-<li><p>注意：不希望想前两个一样系统执行多次，只希望执行一次，但此时不稳定</p>
-</li>
-<li><p>区域化还是%%time</p>
-</li>
-<li><p>此时多次生成或者排后测量是不一样的时间，无法真实反映</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> random<br>L=[random.random() <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100000</span>)]<br>%timeit L.sort()<br>%timeit L.sort()<br></code></pre></td></tr></table></figure></li>
-<li><p>说明：random()函数</p>
-<h3 id="其他魔法命令"><a href="#其他魔法命令" class="headerlink" title="其他魔法命令"></a>其他魔法命令</h3></li>
+<li>生成<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">nparr=np.array([i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)])<br></code></pre></td></tr></table></figure></li>
+<li>基本操作，类似List和array<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Python">nparr[<span class="hljs-number">5</span>]<span class="hljs-comment">#查看</span><br>nparr[<span class="hljs-number">5</span>]=<span class="hljs-number">100</span>;<span class="hljs-comment">#赋值</span><br><br></code></pre></td></tr></table></figure>
+ 数据类型限定<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Python">nparr.dtype;<span class="hljs-comment">#查看nparr中存储的数据类型，dtype(&#x27;int32&#x27;)</span><br><br></code></pre></td></tr></table></figure></li>
 </ol>
 <ul>
-<li>%lsmagic:输出所有魔法命令</li>
-<li>%run? 查看run命令的文档</li>
+<li>如果对nparr[5]=5.0,则会对5.1进行截位转换成int32后再存入</li>
+<li>在Machine Learning中大多对浮点数进行操作<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs Python">nparr2=np.array([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3.0</span>])<br>nparr2;<span class="hljs-comment">#array([1., 2., 3.])</span><br>nparr2,dtype;<span class="hljs-comment">#dtype(&#x27;float64&#x27;)</span><br><br></code></pre></td></tr></table></figure>
+<h3 id="其他创建numpy-array的方法"><a href="#其他创建numpy-array的方法" class="headerlink" title="其他创建numpy.array的方法"></a>其他创建numpy.array的方法</h3></li>
+</ul>
+<ol>
+<li>zeros()创建0向量/矩阵<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.zeros(<span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>传入数字10是大小，生成1*10的向量</li>
+<li>默认类型dtype是浮点型，可以传参dtype=int，指定整型<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.zeros(<span class="hljs-number">10</span>,dtype=<span class="hljs-built_in">int</span>)<br></code></pre></td></tr></table></figure></li>
+<li>传入元组,传参shape=(a,b),也可省略shape=,生成a×b矩阵<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.zeros((<span class="hljs-number">3</span>,<span class="hljs-number">5</span>),dtype=<span class="hljs-built_in">int</span>)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>ones()创建全1向量/矩阵，使用要求与zeros类似</li>
+<li>full()创建指定数矩阵</li>
+</ol>
+<ul>
+<li>shape=(a,b)指定矩阵大小，fill_value=n指定填充数，都可省略参数名<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.full(shape=(<span class="hljs-number">3</span>,<span class="hljs-number">5</span>),fill_value=<span class="hljs-number">666</span>)<br></code></pre></td></tr></table></figure></li>
+<li>创建的矩阵元素类型与fill_value指定数类型相同</li>
+</ul>
+<ol start="4">
+<li>当写出了参数名后，可以调整参数前后顺序，传参时可以适当给出参数名</li>
+</ol>
+<hr>
+<h2 id="arrange"><a href="#arrange" class="headerlink" title="arrange"></a>arrange</h2><h3 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.arange(<span class="hljs-number">0</span>,<span class="hljs-number">20</span>,<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
+<ul>
+<li>传参与Python中range的类似</li>
+<li>传参可以传入浮点数</li>
+<li>默认是整型</li>
+</ul>
+<hr>
+<h2 id="linspace"><a href="#linspace" class="headerlink" title="linspace"></a>linspace</h2><h3 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.linspace(<span class="hljs-number">0</span>,<span class="hljs-number">20</span>,<span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure>
+<ul>
+<li>生成间距相等的等差数列，从0-20</li>
+<li>传参：<ol>
+<li>起始点</li>
+<li>终止点（包含）</li>
+<li>取点个数（即向量的长度）</li>
+</ol>
+</li>
+<li>默认是浮点型</li>
+</ul>
+<hr>
+<h2 id="random"><a href="#random" class="headerlink" title="random"></a>random</h2><h2 id="使用-3"><a href="#使用-3" class="headerlink" title="使用"></a>使用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure>
+<ol>
+<li>传入第三个参数randint(a,b,c)</li>
+</ol>
+<ul>
+<li>a起始点，b终止点（不包含）</li>
+<li>c生成个数（向量长度/矩阵大小），参数名：size=c;<br>size也可传入元组（m,n），生成m×n的矩阵，每个元素是随机数</li>
+</ul>
+<ol start="2">
+<li>伪随机数-随机种子的指定<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.seed(<span class="hljs-number">666</span>);<br></code></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>调试的时候，希望每次生成随机矩阵是重复的，使得两次随机生成矩阵是相同的</li>
+<li>需要完全随机的时候就不指定seed</li>
+</ul>
+<ol start="3">
+<li>生成随机的浮点数： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.random()<span class="hljs-comment">#默认生成(0,1)的随机数</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>传参：random（size=?），可以传入向量长度/矩阵大小</li>
+</ul>
+<hr>
+<h2 id="normal"><a href="#normal" class="headerlink" title="normal"></a>normal</h2><h2 id="使用-4"><a href="#使用-4" class="headerlink" title="使用"></a>使用</h2><p>生成正态分布(0,1)的随机浮点数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.normal()<br></code></pre></td></tr></table></figure>
+<ul>
+<li>传参：normal(a,b,size=c)<ol>
+<li>指定均值a，方差b</li>
+<li>指定向量/矩阵大小<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.normal(<span class="hljs-number">10</span>,<span class="hljs-number">100</span>,size=[<span class="hljs-number">3</span>,<span class="hljs-number">5</span>])<br></code></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="查询文档"><a href="#查询文档" class="headerlink" title="查询文档"></a>查询文档</h2><ul>
+<li>np.random.normal?查看normal函数相关文档</li>
+<li>np.random? 查询random模块</li>
+<li>help(np.random.normal)</li>
 </ul>
 
                 
@@ -367,8 +414,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Jupyter NoteBook</div>
-      <div>http://example.com/2023/04/05/Jupyter NoteBook/</div>
+      <div>Numpy</div>
+      <div>http://example.com/2023/04/05/Numpy/</div>
     </div>
     <div class="license-meta">
       
@@ -412,18 +459,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/05/Numpy/" title="Numpy">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Numpy</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/03/31/Markdown%E8%AF%AD%E6%B3%95/" title="Markdown语法">
-                        <span class="hidden-mobile">Markdown语法</span>
+                      <a href="/2023/04/05/Jupyter%20NoteBook/" title="Jupyter NoteBook">
+                        <span class="hidden-mobile">Jupyter NoteBook</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
