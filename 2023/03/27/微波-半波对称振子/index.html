@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://example.com/2023/03/27/%E5%BE%AE%E6%B3%A2-%E5%8D%8A%E6%B3%A2%E5%AF%B9%E7%A7%B0%E6%8C%AF%E5%AD%90/Eplane.png">
 <meta property="og:image" content="http://example.com/2023/03/27/%E5%BE%AE%E6%B3%A2-%E5%8D%8A%E6%B3%A2%E5%AF%B9%E7%A7%B0%E6%8C%AF%E5%AD%90/Hplane.png">
 <meta property="article:published_time" content="2023-03-27T01:32:15.000Z">
-<meta property="article:modified_time" content="2023-04-03T12:23:22.859Z">
+<meta property="article:modified_time" content="2023-04-06T08:11:51.859Z">
 <meta property="article:author" content="Chuanzaiii">
 <meta property="article:tag" content="HFSS">
 <meta name="twitter:card" content="summary_large_image">
@@ -233,7 +233,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          1.9k 字
         
       </span>
     
@@ -244,7 +244,7 @@
         
         
         
-          9 分钟
+          16 分钟
         
       </span>
     
@@ -308,6 +308,10 @@
 <li>在Result一栏右键Create Far Fields Report-3D Polar Plot，依次在Geometry栏选择3D、Eplane、Hplane，绘制辐射方向图。<h2 id="仿真结果-2"><a href="#仿真结果-2" class="headerlink" title="仿真结果"></a>仿真结果</h2></li>
 </ol>
 <p><img src="/2023/03/27/%E5%BE%AE%E6%B3%A2-%E5%8D%8A%E6%B3%A2%E5%AF%B9%E7%A7%B0%E6%8C%AF%E5%AD%90/%E8%BE%93%E5%85%A5%E9%98%BB%E6%8A%97.png" srcset="/img/loading.gif" lazyload alt="图2-3-4 输入阻抗特性"><br><img src="/2023/03/27/%E5%BE%AE%E6%B3%A2-%E5%8D%8A%E6%B3%A2%E5%AF%B9%E7%A7%B0%E6%8C%AF%E5%AD%90/3D.png" srcset="/img/loading.gif" lazyload alt="图2-3-5 辐射场3D图示"><br><img src="/2023/03/27/%E5%BE%AE%E6%B3%A2-%E5%8D%8A%E6%B3%A2%E5%AF%B9%E7%A7%B0%E6%8C%AF%E5%AD%90/Eplane.png" srcset="/img/loading.gif" lazyload alt="图2-3-6 Eplane辐射场图示"><br><img src="/2023/03/27/%E5%BE%AE%E6%B3%A2-%E5%8D%8A%E6%B3%A2%E5%AF%B9%E7%A7%B0%E6%8C%AF%E5%AD%90/Hplane.png" srcset="/img/loading.gif" lazyload alt="图2-3-7 Hplane辐射场图示"></p>
+<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><ol>
+<li>输入阻抗分析<br>对称振子的工作波长λ=lambda=315.8mm=0.3158m,对称振子长度为length=2h=151mm=0.151m，波长缩短系数n1≈1.04，<br>相位常数β=n1*(2π)/λ≈20.69Ω;<br>β*h≈1.57<br>由于h/λ=0.239，故辐射电阻近似公式为$R_{\sum } ≈24.7(\beta h)^{2.4} ≈72.0435Ω;$<br>对称振子的平均特性阻抗为$\overline{Z0} =120(ln(\frac{2h}{a} )-1)=482.07$<br>将以上$R_{\sum } 、Z0及$β代入输入阻抗公式$$\mathrm{Z}<em>{i n}=\frac{R</em>{\Sigma}}{\sin ^{2} \beta h}-j \bar{Z}_{0} \cot \beta h$$<br>得到Zin≈72-0.384j(Ω)，如图2-3-4所示为仿真模拟得到的半波对称振子天线模型的输入阻抗特性曲线，可以观察到当f=0.95GHz时的输入阻抗值实部与虚部与理论计算值近似，且在串联谐振点附近输入电阻随频率变化平缓，可以验证得出半波对称振子便于同馈线的匹配，且具有较好的频率特性</li>
+<li>对称振子的场只有  $E^{\theta } H^{\varphi} ,$相互垂直且同相位，通过图2-3-5可以看出对称振子的辐射场是一个沿着径向$\vec{e_{r} }$ 向外传播的电磁波（TEM波），天线的归一化方向函数$$F(\theta)=\frac{|E(\theta,\varphi)|}{|E\text{max}|}=|\frac{\cos(\beta h\text{cos}\theta)-\text{cos}\beta h}{\text{sin}\theta}|$$<br>说明了对称振子辐射具有方向性，将h=λ/4代入可得$F(\theta)=|\frac{\cos(\frac{\pi}{2}\cos\theta)}{\sin\theta}|$<br>HFSS仿真得到的半波对称振子的辐射场$E^{\theta } H^{\varphi} 如图2-3-6,2-3-7$所示</li>
+</ol>
 
                 
               </div>
