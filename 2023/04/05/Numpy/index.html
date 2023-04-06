@@ -16,12 +16,12 @@
   <meta name="author" content="Chuanzaiii">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Numpy基础numpy引入 import numpy as np 导入并为库取名 np.__version__查看版本numpy.array与Python中list和array对比 Python中List未限定元素类型，array无向量相关、矩阵相关运算 使用nuppy.array使用   生成1nparr&#x3D;np.array([i for i in range(10)]) 基本操作，类似List">
+    <meta name="description" content="Numpy基础numpy引入 import numpy as np 导入并为库取名 np.version查看版本numpy.array与Python中list和array对比 Python中List未限定元素类型，array无向量相关、矩阵相关运算 使用nuppy.array使用   生成1nparr&#x3D;np.array([i for i in range(10)]) 基本操作，类似List和arr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Numpy">
 <meta property="og:url" content="http://example.com/2023/04/05/Numpy/index.html">
 <meta property="og:site_name" content="Chuanzaiii">
-<meta property="og:description" content="Numpy基础numpy引入 import numpy as np 导入并为库取名 np.__version__查看版本numpy.array与Python中list和array对比 Python中List未限定元素类型，array无向量相关、矩阵相关运算 使用nuppy.array使用   生成1nparr&#x3D;np.array([i for i in range(10)]) 基本操作，类似List">
+<meta property="og:description" content="Numpy基础numpy引入 import numpy as np 导入并为库取名 np.version查看版本numpy.array与Python中list和array对比 Python中List未限定元素类型，array无向量相关、矩阵相关运算 使用nuppy.array使用   生成1nparr&#x3D;np.array([i for i in range(10)]) 基本操作，类似List和arr">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-05T11:43:32.000Z">
 <meta property="article:modified_time" content="2023-04-05T11:45:01.601Z">
@@ -277,7 +277,7 @@
                 
                 <h1 id="Numpy基础"><a href="#Numpy基础" class="headerlink" title="Numpy基础"></a>Numpy基础</h1><h2 id="numpy引入"><a href="#numpy引入" class="headerlink" title="numpy引入"></a>numpy引入</h2><ul>
 <li>import numpy as np 导入并为库取名</li>
-<li>np.__version__查看版本<h2 id="numpy-array"><a href="#numpy-array" class="headerlink" title="numpy.array"></a>numpy.array</h2><h3 id="与Python中list和array对比"><a href="#与Python中list和array对比" class="headerlink" title="与Python中list和array对比"></a>与Python中list和array对比</h3></li>
+<li>np.<strong>version</strong>查看版本<h2 id="numpy-array"><a href="#numpy-array" class="headerlink" title="numpy.array"></a>numpy.array</h2><h3 id="与Python中list和array对比"><a href="#与Python中list和array对比" class="headerlink" title="与Python中list和array对比"></a>与Python中list和array对比</h3></li>
 <li>Python中List未限定元素类型，array无向量相关、矩阵相关运算</li>
 <li>使用nuppy.array<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3></li>
 </ul>
@@ -292,14 +292,13 @@
 <h3 id="其他创建numpy-array的方法"><a href="#其他创建numpy-array的方法" class="headerlink" title="其他创建numpy.array的方法"></a>其他创建numpy.array的方法</h3></li>
 </ul>
 <ol>
-<li>zeros()创建0向量/矩阵<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.zeros(<span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure></li>
-</ol>
+<li>zeros()创建0向量/矩阵<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.zeros(<span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure>
 <ul>
 <li>传入数字10是大小，生成1*10的向量</li>
 <li>默认类型dtype是浮点型，可以传参dtype=int，指定整型<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.zeros(<span class="hljs-number">10</span>,dtype=<span class="hljs-built_in">int</span>)<br></code></pre></td></tr></table></figure></li>
 <li>传入元组,传参shape=(a,b),也可省略shape=,生成a×b矩阵<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.zeros((<span class="hljs-number">3</span>,<span class="hljs-number">5</span>),dtype=<span class="hljs-built_in">int</span>)<br></code></pre></td></tr></table></figure></li>
 </ul>
-<ol start="2">
+</li>
 <li>ones()创建全1向量/矩阵，使用要求与zeros类似</li>
 <li>full()创建指定数矩阵</li>
 </ol>
@@ -307,7 +306,7 @@
 <li>shape=(a,b)指定矩阵大小，fill_value=n指定填充数，都可省略参数名<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.full(shape=(<span class="hljs-number">3</span>,<span class="hljs-number">5</span>),fill_value=<span class="hljs-number">666</span>)<br></code></pre></td></tr></table></figure></li>
 <li>创建的矩阵元素类型与fill_value指定数类型相同</li>
 </ul>
-<ol start="4">
+<ol>
 <li>当写出了参数名后，可以调整参数前后顺序，传参时可以适当给出参数名</li>
 </ol>
 <hr>
@@ -332,32 +331,32 @@
 <hr>
 <h2 id="random"><a href="#random" class="headerlink" title="random"></a>random</h2><h2 id="使用-3"><a href="#使用-3" class="headerlink" title="使用"></a>使用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure>
 <ol>
-<li>传入第三个参数randint(a,b,c)</li>
-</ol>
-<ul>
+<li>传入第三个参数randint(a,b,c)<ul>
 <li>a起始点，b终止点（不包含）</li>
 <li>c生成个数（向量长度/矩阵大小），参数名：size=c;<br>size也可传入元组（m,n），生成m×n的矩阵，每个元素是随机数</li>
 </ul>
-<ol start="2">
+<ol>
 <li>伪随机数-随机种子的指定<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.seed(<span class="hljs-number">666</span>);<br></code></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>调试的时候，希望每次生成随机矩阵是重复的，使得两次随机生成矩阵是相同的</li>
 <li>需要完全随机的时候就不指定seed</li>
 </ul>
-<ol start="3">
+<ol>
 <li>生成随机的浮点数： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.random()<span class="hljs-comment">#默认生成(0,1)的随机数</span><br></code></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>传参：random（size=?），可以传入向量长度/矩阵大小</li>
 </ul>
+</li>
+</ol>
 <hr>
-<h2 id="normal"><a href="#normal" class="headerlink" title="normal"></a>normal</h2><h2 id="使用-4"><a href="#使用-4" class="headerlink" title="使用"></a>使用</h2><p>生成正态分布(0,1)的随机浮点数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.normal()<br></code></pre></td></tr></table></figure>
+<h2 id="normal"><a href="#normal" class="headerlink" title="normal"></a>normal</h2><h2 id="使用-4"><a href="#使用-4" class="headerlink" title="使用"></a>使用</h2><p>生成正态分布(0,1)的随机浮点数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.normal()<br></code></pre></td></tr></table></figure></p>
 <ul>
 <li>传参：normal(a,b,size=c)<ol>
 <li>指定均值a，方差b</li>
-<li>指定向量/矩阵大小<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.normal(<span class="hljs-number">10</span>,<span class="hljs-number">100</span>,size=[<span class="hljs-number">3</span>,<span class="hljs-number">5</span>])<br></code></pre></td></tr></table></figure></li>
+<li>指定向量/矩阵大小<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">np.random.normal(<span class="hljs-number">10</span>,<span class="hljs-number">100</span>,size=[<span class="hljs-number">3</span>,<span class="hljs-number">5</span>])<br></code></pre></td></tr></table></figure>
+</li>
 </ol>
 </li>
 </ul>
@@ -731,20 +730,5 @@
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
