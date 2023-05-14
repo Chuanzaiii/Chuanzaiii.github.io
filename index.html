@@ -73,7 +73,11 @@
 
 
   
-<meta name="generator" content="Hexo 5.4.2"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
 
 
 <body>
@@ -421,7 +425,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2023/03/27/%E5%BE%AE%E6%B3%A2-%E5%8D%8A%E6%B3%A2%E5%AF%B9%E7%A7%B0%E6%8C%AF%E5%AD%90/" target="_self">
         <div>
-          使用HFSS软件设计建模半波对称振子结构主要仿真步骤 设计振子结构:由原理分析可得到，半波对称振子天线中心频率为950MHz，其结构尺寸为半径a=1mm,length=157.9mm,lambda=315.8mm,两臂间隙gap=1mm,分别绘制底面半径皆为a，高度为length和gap的圆柱，再经过布尔运算Subtract得到两段长导线，设置为理想导体。 再绘制高度为length+lambda/
+          使用HFSS软件设计建模半波对称振子结构  主要仿真步骤  设计振子结构:由原理分析可得到，半波对称振子天线中心频率为950MHz，其结构尺寸为半径a=1mm,length=157.9mm,lambda=315.8mm,两臂间隙gap=1mm,分别绘制底面半径皆为a，高度为length和gap的圆柱，再经过布尔运算Subtract得到两段长导线，设置为理想导体。 再绘制高度为length+lam
         </div>
       </a>
 
@@ -650,5 +654,20 @@
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
