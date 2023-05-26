@@ -1,0 +1,726 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Chuanzaiii">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="题目要求 动态内存管理根据用户的需求分配任意大小的内存，当用户释放内存时，被释放的内存回到池(堆)中供其他用户使用。现设计某实时操作系统计划的内存管理功能，请你实现被释放内存的回收合并模块，当经过一次内存释放操作后，请返回当前最大的连续内存块的起始位置，以及此连续内存的数量(块数)。若存在多个最大连续内存块，侧返回编号最小的内存块信息 当前已经把连续内存，按块进行连续编号  输入样例  输入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="连续空闲内存合并管理">
+<meta property="og:url" content="http://example.com/2023/05/26/%E8%BF%9E%E7%BB%AD%E7%A9%BA%E9%97%B2%E5%86%85%E5%AD%98%E5%90%88%E5%B9%B6%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="Chuanzaiii">
+<meta property="og:description" content="题目要求 动态内存管理根据用户的需求分配任意大小的内存，当用户释放内存时，被释放的内存回到池(堆)中供其他用户使用。现设计某实时操作系统计划的内存管理功能，请你实现被释放内存的回收合并模块，当经过一次内存释放操作后，请返回当前最大的连续内存块的起始位置，以及此连续内存的数量(块数)。若存在多个最大连续内存块，侧返回编号最小的内存块信息 当前已经把连续内存，按块进行连续编号  输入样例  输入">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-26T09:40:32.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:40:47.284Z">
+<meta property="article:author" content="Chuanzaiii">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>连续空闲内存合并管理 - Chuanzaiii</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Chuanzaiii</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="连续空闲内存合并管理"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-26 17:40" pubdate>
+          2023年5月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          67 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">连续空闲内存合并管理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="题目要求"><a class="markdownIt-Anchor" href="#题目要求"></a> 题目要求</h1>
+<p>动态内存管理根据用户的需求分配任意大小的内存，当用户释放内存时，被释放的内存回到池(堆)中供其他用户使用。现设计某实时操作系统计划的内存管理功能，请你实现被释放内存的回收合并模块，当经过一次内存释放操作后，请返回当前最大的连续内存块的起始位置，以及此连续内存的数量(块数)。若存在多个最大连续内存块，侧返回编号最小的内存块信息<br>
+当前已经把连续内存，按块进行连续编号</p>
+<h1 id="输入样例"><a class="markdownIt-Anchor" href="#输入样例"></a> 输入样例</h1>
+<h2 id="输入"><a class="markdownIt-Anchor" href="#输入"></a> 输入</h2>
+<ol>
+<li>样例1
+<ul>
+<li>输入：1,3,2,5<br>
+表示释放四块内存，ID分别为1,3,2,5，每块内存的大小为1个单位</li>
+<li>预制条件：函数执行前，所有内存均已被申请完毕，无空闲，不需考虑内存重复释放</li>
+<li>取值范围：内存ID编号：0&lt;ID&lt;2^31-1,单次释放的内存个数&lt;10000</li>
+<li>输出：1,3<br>
+经过回收处理后，当前可用的最大连续内存大小3，以及次内存的起始编号1<br>
+说明：1,3,2,5四块内存前三块1,3,2为连续内存，合并后的连续内存为3个单位。起始编号为1，故返回1,3</li>
+</ul>
+</li>
+<li>样例2
+<ul>
+<li>输入：2,4,3,7,6<br>
+表示释放5块内存，ID分别为2,4,3,7,6</li>
+<li>输出：2,3<br>
+经过回收处理后，2,3,4三块内存连续，可以合并为一块大内存，大小为3个单位；6,7内存连续，合并后的连续内存大小为2<br>
+说明：比较后，合并后的最大连续内存为3个单位。起始编号为2，故返回2,3</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="实现思路"><a class="markdownIt-Anchor" href="#实现思路"></a> 实现思路</h1>
+<ol>
+<li>要判断数组中元素是否连续，我一开始的判断是对数组进行切分取得最大值max与最小值min，若max-min等于子数组长度时，则该子数组为连续，但没有联想起相关api方法；于是分析测试用例：分析输入1，3，2，5，输出1，3；其中1，3，2是连续的内存，但是1，3在是否连续的判断中是不相邻的，也就是说，如果只是对原始序列进行简单的相邻递增或递减判断是不合适的，于是先对输入数组a进行排序得到数组a1，再取得a1中相邻两个数之间的差值，存放在一个新数组b中，如果是相邻的元素是连续的，即差值为1，那么数组b中连续1的个数+1则为数组a1中含有连续数字的个数</li>
+<li>另一个问题出现，此时分析内存再比如输入数组a为3，4，1，5，排序后的数组a1是1，3，4，5，看起来排序后新数组3，4，5是相邻的，但是原输入数组中只有3，4挨在一起算连续内存，而原输入中5被1隔开了，所以输出应该是3，2，起始内存为3，内存大小为2，此时又对排序后的是否相邻的判断做出了限制</li>
+<li>考虑到此，即连续内存既需要内存编号数字是连续的，又需要内存编号在原输入数组中是挨在一起的，即在原数组a中的index索引是连续的，要判断index索引是否连续，则只需要取得内存编号数字连续的数组对应于a中的索引数组，对索引数组统计部分连续的数字长度即可得到原数组a中连续内存的长度</li>
+<li>鉴于原输入数组中连续内存个数可能有多个，并且需要记录连续内存的编号，将升序数组a1中含有连续数字的数目记录在一个数组count中，且数目对应的索引为连续数字在a1中的起始索引</li>
+</ol>
+<h1 id="代码实现"><a class="markdownIt-Anchor" href="#代码实现"></a> 代码实现</h1>
+<ol>
+<li>对排好序的序列求相邻两元素的差值，并统计相应数目</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] statistics(ArrayList&lt;Integer&gt; a1) &#123;  <br>    <span class="hljs-comment">//集合b用于存放升序排列的输入序列的相邻元素差值  </span><br>    ArrayList&lt;Integer&gt; b = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();  <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; a1.size() - <span class="hljs-number">1</span>; i++) &#123;  <br>        b.add(a1.get(i + <span class="hljs-number">1</span>) - a1.get(i));  <br>    &#125;  <br>    <span class="hljs-comment">//计数君计数连续数字的个数  </span><br>    <span class="hljs-type">int</span>[] count = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[b.size()];  <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; b.size(); i++) &#123;  <br>        <span class="hljs-comment">//这里i即为a1中连续数字的起始位置索引  </span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">k</span> <span class="hljs-operator">=</span> i;  <br>        <span class="hljs-comment">//出现1  </span><br>        <span class="hljs-keyword">if</span> (b.get(i) == <span class="hljs-number">1</span>) &#123;  <br>            count[i] = <span class="hljs-number">1</span>;  <br>            <span class="hljs-comment">//往后找是否有连1  </span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> i + <span class="hljs-number">1</span>; j &lt; b.size(); j++) &#123;  <br>                <span class="hljs-keyword">if</span> (b.get(j) == <span class="hljs-number">1</span>) &#123;  <br>                    count[i]++;  <br>                &#125; <span class="hljs-keyword">else</span> &#123;  <br>                    <span class="hljs-comment">//下一个不是1,break  </span><br>                    <span class="hljs-keyword">break</span>;  <br>                &#125;  <br>            &#125;  <br>            <span class="hljs-comment">//跳过连1段落  </span><br>            i = i + count[i];  <br>            <span class="hljs-comment">//补1，n个数差值有n-1个1  </span><br>            count[k]++;  <br>        &#125;  <br>    &#125;  <br>    <span class="hljs-keyword">return</span> count;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="2">
+<li>根据起始索引i和连续长度截取得到连续数组(该方法用于截取排好序后的a1和原输入序列a)</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-comment">//根据起始索引i和连续长度截取得到连续数组  </span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] getcontinuenumber(<span class="hljs-type">int</span> index, <span class="hljs-type">int</span> max, ArrayList&lt;Integer&gt; a) &#123;  <br>    <span class="hljs-type">int</span> <span class="hljs-variable">toIndex</span> <span class="hljs-operator">=</span> max + index;  <br>    <span class="hljs-type">int</span>[] ints = a.subList(index, toIndex).stream().mapToInt(Integer::valueOf).toArray();  <br>    <span class="hljs-keyword">return</span> ints;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="3">
+<li>判断伪连续数组对应在输入a中的索引是不是连续的，若部分连续，则取得起始点以及连续大小</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-comment">//判断伪连续数组对应在输入a中的索引是不是连续的，若部分连续，则取得起始点以及连续大小  </span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ArrayList <span class="hljs-title function_">getrealcontinue</span><span class="hljs-params">(<span class="hljs-type">int</span>[] findcontine, ArrayList&lt;Integer&gt; a)</span> &#123;  <br>    ArrayList&lt;Integer&gt; index = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();  <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; findcontine.length; i++) &#123;  <br>        index.add(a.indexOf(findcontine[i]));  <br>    &#125;  <br>    Collections.sort(index);  <br>    <span class="hljs-type">int</span>[] count = statistics(index);  <br>    <span class="hljs-type">ArrayList</span> <span class="hljs-variable">returnresult</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();  <br>    <span class="hljs-type">int</span>[] maxByFor1 = findMaxByFor(count);  <br>    <span class="hljs-comment">//最大连续索引的数目  </span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">max</span> <span class="hljs-operator">=</span> maxByFor1[<span class="hljs-number">0</span>];  <br>    <span class="hljs-comment">//起始索引  </span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">maxindex</span> <span class="hljs-operator">=</span> maxByFor1[<span class="hljs-number">1</span>];  <br>    <span class="hljs-comment">//a中的起始索引  </span><br>    <span class="hljs-type">Integer</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> index.get(maxindex);  <br>    returnresult.add(i);  <br>    returnresult.add(max);  <br>    <span class="hljs-keyword">return</span> returnresult;  <br>&#125;<br><br><span class="hljs-comment">//得到计数君count里的最大值和对应索引  </span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] findMaxByFor(<span class="hljs-type">int</span>[] arr) &#123;  <br>    <span class="hljs-type">int</span> <span class="hljs-variable">max</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; <span class="hljs-comment">// 最大值  </span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">index</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<span class="hljs-comment">//对应索引  </span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; arr.length; i++) &#123;  <br>        <span class="hljs-keyword">if</span> (arr[i] &gt; max) &#123;  <br>            max = arr[i];  <br>            index = i;  <br>        &#125;  <br>    &#125;  <br>    <span class="hljs-type">int</span>[] ints = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">2</span>];  <br>    ints[<span class="hljs-number">0</span>] = max;  <br>    ints[<span class="hljs-number">1</span>] = index;  <br>    <span class="hljs-keyword">return</span> ints;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="4">
+<li>根据对a1中连续数字的统计count逐个截取得到在a1中的连续子序列，再回到a中寻找对应索引，统计在a中连续内存的个数和起始节点</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs Java">ArrayList&lt;ArrayList&lt;Integer&gt;&gt; integerLists = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();  <br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; count.length; i++) &#123;  <br>    <span class="hljs-keyword">if</span> (count[i] != <span class="hljs-number">0</span>) &#123;  <br>        <span class="hljs-type">int</span>[] findcontine = getcontinuenumber(i, count[i], a1);  <br>        <span class="hljs-comment">//System.out.println(Arrays.toString(findcontine));  </span><br>        <span class="hljs-comment">//现在判断得到的伪连续数组的索引是否是连续的，统计部分连续的数目  </span><br>        <span class="hljs-type">ArrayList</span> <span class="hljs-variable">getrealcontinue</span> <span class="hljs-operator">=</span> getrealcontinue(findcontine, a);<span class="hljs-comment">//这里存放该（单个）连续数组的真实连续的起始索引，长度  </span><br>  <br>        integerLists.add(getrealcontinue);<span class="hljs-comment">//存放多个连续数组的信息  </span><br>        <span class="hljs-comment">//System.out.println(integerLists);  </span><br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="5">
+<li>遍历收集到的多个连续数组的信息，判断哪个的连续数量最大</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-comment">//判断连续数组哪个连续数量最大  </span><br><span class="hljs-type">int</span> <span class="hljs-variable">max</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;  <br><span class="hljs-type">int</span> <span class="hljs-variable">index</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;  <br><span class="hljs-keyword">for</span> (ArrayList&lt;Integer&gt; integerList : integerLists) &#123;  <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; integerList.size(); i++) &#123;  <br>        <span class="hljs-keyword">if</span> (integerList.get(<span class="hljs-number">1</span>) &gt;= max) &#123;  <br>            max = integerList.get(<span class="hljs-number">1</span>);  <br>            index = integerList.get(<span class="hljs-number">0</span>);  <br>        &#125;  <br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="6">
+<li>根据最大连续内存的信息：起始索引和长度在a中截取到该连续内存数组,找到由于该连续内存数组在a中可能是乱序，故找到起其中最小数作为起始编号</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-comment">//找到最小数(起始）的索引  </span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findStartindex</span><span class="hljs-params">(<span class="hljs-type">int</span>[] arr)</span> &#123;  <br>    <span class="hljs-type">int</span> <span class="hljs-variable">min</span> <span class="hljs-operator">=</span> arr[<span class="hljs-number">0</span>];  <br>    <span class="hljs-type">int</span> <span class="hljs-variable">minindex</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;  <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; arr.length; i++) &#123;  <br>        <span class="hljs-keyword">if</span> (arr[i] &lt; min) &#123;  <br>            min = arr[i];  <br>            minindex = i;  <br>        &#125;  <br>    &#125;  <br>    <span class="hljs-keyword">return</span> minindex;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="7">
+<li>输出结果</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-type">int</span>[] findfinal = getcontinuenumber(index, max, a);  <br><span class="hljs-type">int</span> <span class="hljs-variable">startindex</span> <span class="hljs-operator">=</span> findStartindex(findfinal);  <br>System.out.println(findfinal[startindex] + <span class="hljs-string">&quot;,&quot;</span> + max);<br></code></pre></td></tr></table></figure>
+<h1 id="完整代码"><a class="markdownIt-Anchor" href="#完整代码"></a> 完整代码</h1>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">package</span> HuaweiTest1_5_24;  <br>  <br><span class="hljs-keyword">import</span> java.util.*;  <br><span class="hljs-keyword">import</span> java.util.stream.Collectors;  <br>  <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test3</span> &#123;  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;  <br>        <span class="hljs-comment">//获取输入  </span><br>        ArrayList&lt;Integer&gt; a = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();  <br>        <span class="hljs-type">Scanner</span> <span class="hljs-variable">sc</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(System.in);  <br>        <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> sc.nextLine();  <br>        <span class="hljs-comment">//根据，切分数据  </span><br>        String[] split = s.split(<span class="hljs-string">&quot;,&quot;</span>);  <br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; split.length; i++) &#123;  <br>            a.add(Integer.valueOf(split[i]));  <br>        &#125;  <br>  <br>        <span class="hljs-comment">//对输入序列进行排序，存放在a1  </span><br>        ArrayList&lt;Integer&gt; a1 = (ArrayList&lt;Integer&gt;) a.stream().sorted((o1, o2) -&gt; o1 - o2).collect(Collectors.toList());  <br>        <span class="hljs-comment">//得到升序序列a1中连续数字的个数，count的索引为对应a1中连续数字的起始索引  </span><br>        <span class="hljs-type">int</span>[] count = statistics(a1);  <br>        <span class="hljs-comment">//System.out.println(Arrays.toString(count));  </span><br>  <br>  <br>        ArrayList&lt;ArrayList&lt;Integer&gt;&gt; integerLists = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();  <br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; count.length; i++) &#123;  <br>            <span class="hljs-keyword">if</span> (count[i] != <span class="hljs-number">0</span>) &#123;  <br>                <span class="hljs-type">int</span>[] findcontine = getcontinuenumber(i, count[i], a1);  <br>                <span class="hljs-comment">//System.out.println(Arrays.toString(findcontine));  </span><br>                <span class="hljs-comment">//现在判断得到的伪连续数组的索引是否是连续的，统计部分连续的数目  </span><br>                <span class="hljs-type">ArrayList</span> <span class="hljs-variable">getrealcontinue</span> <span class="hljs-operator">=</span> getrealcontinue(findcontine, a);<span class="hljs-comment">//这里存放该（单个）连续数组的真实连续的起始索引，长度  </span><br>  <br>                integerLists.add(getrealcontinue);<span class="hljs-comment">//存放多个连续数组的信息  </span><br>                <span class="hljs-comment">//System.out.println(integerLists);  </span><br>            &#125;  <br>        &#125;  <br>        <span class="hljs-comment">//判断连续数组哪个连续数量最大  </span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">max</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;  <br>        <span class="hljs-type">int</span> <span class="hljs-variable">index</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;  <br>        <span class="hljs-keyword">for</span> (ArrayList&lt;Integer&gt; integerList : integerLists) &#123;  <br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; integerList.size(); i++) &#123;  <br>                <span class="hljs-keyword">if</span> (integerList.get(<span class="hljs-number">1</span>) &gt;= max) &#123;  <br>                    max = integerList.get(<span class="hljs-number">1</span>);  <br>                    index = integerList.get(<span class="hljs-number">0</span>);  <br>                &#125;  <br>            &#125;  <br>        &#125;  <br>        <span class="hljs-type">int</span>[] findfinal = getcontinuenumber(index, max, a);  <br>        <span class="hljs-type">int</span> <span class="hljs-variable">startindex</span> <span class="hljs-operator">=</span> findStartindex(findfinal);  <br>        System.out.println(findfinal[startindex] + <span class="hljs-string">&quot;,&quot;</span> + max);  <br>    &#125;  <br>  <br>    <span class="hljs-comment">//判断伪连续数组对应在输入a中的索引是不是连续的，若部分连续，则取得起始点以及连续大小  </span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ArrayList <span class="hljs-title function_">getrealcontinue</span><span class="hljs-params">(<span class="hljs-type">int</span>[] findcontine, ArrayList&lt;Integer&gt; a)</span> &#123;  <br>        ArrayList&lt;Integer&gt; index = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();  <br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; findcontine.length; i++) &#123;  <br>            index.add(a.indexOf(findcontine[i]));  <br>        &#125;  <br>  <br>        <span class="hljs-comment">//System.out.println(index);  </span><br>        Collections.sort(index);  <br>        <span class="hljs-type">int</span>[] count = statistics(index);  <br>        <span class="hljs-comment">//System.out.println(Arrays.toString(count));  </span><br>        <span class="hljs-type">ArrayList</span> <span class="hljs-variable">returnresult</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();  <br>        <span class="hljs-type">int</span>[] maxByFor1 = findMaxByFor(count);  <br>        <span class="hljs-comment">//最大连续索引的数目  </span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">max</span> <span class="hljs-operator">=</span> maxByFor1[<span class="hljs-number">0</span>];  <br>        <span class="hljs-comment">//起始索引  </span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">maxindex</span> <span class="hljs-operator">=</span> maxByFor1[<span class="hljs-number">1</span>];  <br>        <span class="hljs-comment">//a中的起始索引  </span><br>        <span class="hljs-type">Integer</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> index.get(maxindex);  <br>        returnresult.add(i);  <br>        returnresult.add(max);  <br>        <span class="hljs-keyword">return</span> returnresult;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">//对排好序的序列求相邻两元素的差值，并统计相应数目  </span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] statistics(ArrayList&lt;Integer&gt; a1) &#123;  <br>        <span class="hljs-comment">//集合b用于存放升序排列的输入序列的相邻元素差值  </span><br>        ArrayList&lt;Integer&gt; b = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();  <br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; a1.size() - <span class="hljs-number">1</span>; i++) &#123;  <br>            b.add(a1.get(i + <span class="hljs-number">1</span>) - a1.get(i));  <br>        &#125;  <br>        <span class="hljs-comment">//计数君计数连续数字的个数  </span><br>        <span class="hljs-type">int</span>[] count = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[b.size()];  <br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; b.size(); i++) &#123;  <br>            <span class="hljs-comment">//这里i即为a1中连续数字的起始位置索引  </span><br>            <span class="hljs-type">int</span> <span class="hljs-variable">k</span> <span class="hljs-operator">=</span> i;  <br>            <span class="hljs-comment">//出现1  </span><br>            <span class="hljs-keyword">if</span> (b.get(i) == <span class="hljs-number">1</span>) &#123;  <br>                count[i] = <span class="hljs-number">1</span>;  <br>                <span class="hljs-comment">//往后找是否有连1  </span><br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> i + <span class="hljs-number">1</span>; j &lt; b.size(); j++) &#123;  <br>                    <span class="hljs-keyword">if</span> (b.get(j) == <span class="hljs-number">1</span>) &#123;  <br>                        count[i]++;  <br>                    &#125; <span class="hljs-keyword">else</span> &#123;  <br>                        <span class="hljs-comment">//下一个不是1,break  </span><br>                        <span class="hljs-keyword">break</span>;  <br>                    &#125;  <br>                &#125;  <br>                <span class="hljs-comment">//跳过连1段落  </span><br>                i = i + count[i];  <br>                <span class="hljs-comment">//补1，n个数差值有n-1个1  </span><br>                count[k]++;  <br>            &#125;  <br>        &#125;  <br>        <span class="hljs-keyword">return</span> count;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">//得到计数君count里的最大值和对应索引  </span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] findMaxByFor(<span class="hljs-type">int</span>[] arr) &#123;  <br>        <span class="hljs-type">int</span> <span class="hljs-variable">max</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; <span class="hljs-comment">// 最大值  </span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">index</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<span class="hljs-comment">//对应索引  </span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; arr.length; i++) &#123;  <br>            <span class="hljs-keyword">if</span> (arr[i] &gt; max) &#123;  <br>                max = arr[i];  <br>                index = i;  <br>            &#125;  <br>        &#125;  <br>        <span class="hljs-type">int</span>[] ints = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">2</span>];  <br>        ints[<span class="hljs-number">0</span>] = max;  <br>        ints[<span class="hljs-number">1</span>] = index;  <br>        <span class="hljs-keyword">return</span> ints;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">//根据起始索引i和连续长度截取得到连续数组  </span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] getcontinuenumber(<span class="hljs-type">int</span> index, <span class="hljs-type">int</span> max, ArrayList&lt;Integer&gt; a) &#123;  <br>        <span class="hljs-type">int</span> <span class="hljs-variable">toIndex</span> <span class="hljs-operator">=</span> max + index;  <br>        <span class="hljs-type">int</span>[] ints = a.subList(index, toIndex).stream().mapToInt(Integer::valueOf).toArray();  <br>        <span class="hljs-keyword">return</span> ints;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">//找到最小数(起始）的索引  </span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findStartindex</span><span class="hljs-params">(<span class="hljs-type">int</span>[] arr)</span> &#123;  <br>        <span class="hljs-type">int</span> <span class="hljs-variable">min</span> <span class="hljs-operator">=</span> arr[<span class="hljs-number">0</span>];  <br>        <span class="hljs-type">int</span> <span class="hljs-variable">minindex</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;  <br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; arr.length; i++) &#123;  <br>            <span class="hljs-keyword">if</span> (arr[i] &lt; min) &#123;  <br>                min = arr[i];  <br>                minindex = i;  <br>            &#125;  <br>        &#125;  <br>        <span class="hljs-keyword">return</span> minindex;  <br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="结束"><a class="markdownIt-Anchor" href="#结束"></a> 结束</h1>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Fundamentals/" class="category-chain-item">Fundamentals</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>连续空闲内存合并管理</div>
+      <div>http://example.com/2023/05/26/连续空闲内存合并管理/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Chuanzaiii</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/05/Jupyter%20NoteBook/" title="Jupyter NoteBook">
+                        <span class="hidden-mobile">Jupyter NoteBook</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
